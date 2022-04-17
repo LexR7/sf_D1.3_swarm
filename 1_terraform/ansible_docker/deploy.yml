@@ -1,0 +1,40 @@
+---
+- hosts: test
+  gather_facts: yes
+  become: yes
+  roles:
+   - docker
+  tags: deploy 
+
+- hosts: test
+  tasks:
+  - name: Reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
+#  - name: copy dir to target
+#    ansible.posix.synchronize:
+#      src: ../docker/
+#      dest: /home/ansible/docker
+#    tags: run_docker
+
+#  - name: build docker image
+#    community.docker.docker_image:
+#      name: "{{ image_name }}"
+#      build:
+#        path: /home/ansible/docker
+#      source: build
+#    tags: run_docker
+
+#  - name: run image
+#    docker_container:
+#      name: "{{ image_name }}"
+#      image: "{{ image_name }}"
+#      state: started
+#      restart: yes
+#      ports:
+#        - "80:5000"
+#      mounts:
+#        - target: "/srv/app/logs"
+#          source: "/home/ansible/docker/app/logs"
+#          type: bind
+#    tags: run_docker
